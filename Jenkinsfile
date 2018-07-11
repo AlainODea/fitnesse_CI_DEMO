@@ -69,7 +69,7 @@ def parseJson(jsonText) {
 def getChangedFiles(){
     script{
         withCredentials([[$class: 'StringBinding', credentialsId: "${jenkins_credentials_ID}", variable: 'GITHUB_TOKEN']]) {
-            def getFilesUrl = "https://api.github.com/repos/${repoName}/pulls/${env.CHANGE_ID}/files"
+            def getFilesUrl = "https://api.github.com/repos/${getRepoName()}/pulls/${env.CHANGE_ID}/files"
             def githubv4call = 'query { \
                                   repository(owner:\"JenkinsSonarQubeTesting\", name:\"fitnesse_CI_DEMO\") { \
                                     pullRequests(states:[OPEN,MERGED],last:100) { \
@@ -103,7 +103,13 @@ def getChangedFiles(){
         }
     }
 }
-
+                                             
+def getRepoName(){
+    def repo_url = "${env.GIT_URL}"
+    def repo_name = repo_url.replace("https://github.com/","").replace(".git","")
+    return repo_name
+}
+                                             
 def postReview(message){
     script{
         withCredentials([[$class: 'StringBinding', credentialsId: "${jenkins_credentials_ID}", variable: 'GITHUB_TOKEN']]) {
