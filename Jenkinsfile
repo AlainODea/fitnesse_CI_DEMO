@@ -22,6 +22,7 @@ pipeline {
             }
         }
         */
+        /*
         stage('Sonarqube'){
             when {
                 expression {
@@ -40,6 +41,7 @@ pipeline {
                 }
             }
         }
+        */
         stage('Check Security Risk'){
             when {
                 expression {
