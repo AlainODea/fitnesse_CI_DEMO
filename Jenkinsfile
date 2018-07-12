@@ -51,7 +51,7 @@ pipeline {
             steps{
                 script{
                     def changed_lines = getChangedLines()
-                    echo (changed_lines.additions).toString()
+                    echo toString(changed_lines.additions)
                     def changed_files = getChangedFiles()
                     if(isLowsecrisk(getLowsecriskConditions(), changed_lines.additions, changed_files.filename)){
                        echo 'Low security risk, approving PR...'
