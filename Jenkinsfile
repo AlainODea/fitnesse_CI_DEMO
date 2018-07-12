@@ -140,7 +140,7 @@ def getLowsecriskComment(){
 }
 
 def isLowsecrisk(conditions, changed_lines, edited_files){
-    if (changed_lines < 1000){
+    if (changed_lines > 1000){
         return false
     }
     else{
