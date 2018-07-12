@@ -50,8 +50,10 @@ pipeline {
             }
             steps{
                 script{
+                    def changed_lines = getChangedLines()
+                    echo changed_lines.additions
                     def changed_files = getChangedFiles()
-                    if(isLowsecrisk(getLowsecriskConditions(), changed_files.filename)){
+                    if(isLowsecrisk(getLowsecriskConditions(), changed_lines.additions, changed_files.filename)){
                        echo 'Low security risk, approving PR...'
                        postReview(getLowsecriskComment())
                     }
@@ -64,6 +66,16 @@ pipeline {
 def parseJson(jsonText) {
     json_map = readJSON text: jsonText
     return json_map
+}
+
+def getChangedLines(){
+    script{
+        withCredentials([[$class: 'StringBinding', credentialsId: "${jenkins_credentials_ID}", variable: 'GITHUB_TOKEN']]) {
+            def linesResponse = sh (script: "curl -s -H \"Authorization: token ${GITHUB_TOKEN}\" \"https://api.github.com/repos/${repo_name}/pulls/${prNo}\"", returnStdout: true).trim()
+            echo linesResponse
+            return parseJson(linesResponse)
+        }
+    }    
 }
 
 def getChangedFiles(){
@@ -126,9 +138,9 @@ def getLowsecriskComment(){
     return '@lowsecrisk (Automated review)'
 }
 
-def isLowsecrisk(conditions, edited_files){
+def isLowsecrisk(conditions, changed_lines, edited_files){
     for(file in edited_files){
-        if (!(conditions.any{file.toLowerCase().contains(it)})){
+        if (!(conditions.any{file.toLowerCase().contains(it)}) && (changed_lines < 1000)){
            return false
        }
     }
