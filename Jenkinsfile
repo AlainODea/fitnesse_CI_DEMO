@@ -141,7 +141,7 @@ def getLowsecriskComment(){
 
 def isLowsecrisk(conditions, changed_lines, edited_files){
     for(file in edited_files){
-        if (!(conditions.any{file.toLowerCase().contains(it)}) && (changed_lines < 1000)){
+        if (!(conditions.any{file.toLowerCase().contains(it)}) && (changed_lines > 1000)){
            return false
        }
     }
