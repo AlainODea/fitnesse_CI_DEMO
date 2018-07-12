@@ -82,6 +82,7 @@ def getChangedFiles(){
     script{
         withCredentials([[$class: 'StringBinding', credentialsId: "${jenkins_credentials_ID}", variable: 'GITHUB_TOKEN']]) {
             def getFilesUrl = "https://api.github.com/repos/${getRepoName()}/pulls/${env.CHANGE_ID}/files"
+            /*
             def githubv4call = 'query { \
                                   repository(owner:"JenkinsSonarQubeTesting", name:"fitnesse_CI_DEMO") { \
                                     pullRequests(states:[OPEN,MERGED],last:100) { \
@@ -106,8 +107,8 @@ def getChangedFiles(){
                                   } \
                                 }'
             def response = sh (script: "curl -X \"POST\" \"https://api.github.com/graphql\" -H \"Authorization: Bearer ${GITHUB_TOKEN}\" -d \"\"query\": \"${githubv4call}\"\"", returnStdout: true).trim()
-
-            //def pr_files = sh (script: "curl -s -H \"Authorization: token ${GITHUB_TOKEN}\" \"https://api.github.com/repos/${repo_name}/pulls/${prNo}/files\"", returnStdout: true).trim()
+            */
+            def response = sh (script: "curl -s -H \"Authorization: token ${GITHUB_TOKEN}\" \"https://api.github.com/repos/${repo_name}/pulls/${prNo}/files\"", returnStdout: true).trim()
             //def response = httpRequest authentication: 'Carter-DM-UserPass', httpMode: 'GET', url: "https://api.github.com/repos/${getRepoName()}/pulls/${env.CHANGE_ID}/files"
 
             echo response
