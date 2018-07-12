@@ -131,7 +131,7 @@ def postReview(message){
 }
 
 def getLowsecriskConditions(){
-    return ['test', '.xml']
+    return ['test', '.xml', 'jenkins']
 }
 
 def getLowsecriskComment(){
