@@ -21,7 +21,7 @@ pipeline {
                   sh './gradlew test'
             }
         }
-        */
+        
         stage('Sonarqube'){
             when {
                 expression {
@@ -38,6 +38,12 @@ pipeline {
                             "-Dsonar.github.endpoint=https://api.github.com/"
                     }
                 }
+            }
+        }
+        */
+        stage('Custom Plugin'){
+            node{
+                greet'Carter'
             }
         }
         stage('Check Security Risk'){
