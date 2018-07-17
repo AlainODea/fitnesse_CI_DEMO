@@ -12,7 +12,7 @@ pipeline {
         stage('Build') {
             steps {
                   sh './gradlew'
-                  greet'Carter'
+                  helloWorld'Carter'
             }
         }
         /*
@@ -21,7 +21,7 @@ pipeline {
                   sh './gradlew test'
             }
         }
-        */
+        
         stage('Sonarqube'){
             when {
                 expression {
@@ -40,7 +40,7 @@ pipeline {
                 }
             }
         }
-        
+        */
         stage('Check Security Risk'){
             when {
                 expression {
