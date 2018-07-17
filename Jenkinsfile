@@ -24,7 +24,7 @@ pipeline {
                   sh './gradlew test'
             }
         }
-        
+        */
         stage('Sonarqube'){
             when {
                 expression {
@@ -43,7 +43,7 @@ pipeline {
                 }
             }
         }
-        */
+        
         stage('Check Security Risk'){
             when {
                 expression {
