@@ -16,9 +16,7 @@ pipeline {
 
         }
         stage('Custom Plugin'){
-            node{
-                greet'Carter'
-            }
+            greet'Carter'
         }
         /*
         stage('Test') {
