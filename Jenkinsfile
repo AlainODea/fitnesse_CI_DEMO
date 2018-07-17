@@ -15,6 +15,11 @@ pipeline {
             }
 
         }
+        stage('Custom Plugin'){
+            node{
+                greet'Carter'
+            }
+        }
         /*
         stage('Test') {
             steps {
@@ -41,11 +46,6 @@ pipeline {
             }
         }
         */
-        stage('Custom Plugin'){
-            node{
-                greet'Carter'
-            }
-        }
         stage('Check Security Risk'){
             when {
                 expression {
