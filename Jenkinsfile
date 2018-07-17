@@ -13,10 +13,6 @@ pipeline {
             steps {
                   sh './gradlew'
             }
-
-        }
-        stage('Custom Plugin'){
-            greet'Carter'
         }
         /*
         stage('Test') {
