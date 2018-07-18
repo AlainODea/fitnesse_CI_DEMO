@@ -12,7 +12,6 @@ pipeline {
         stage('Build') {
             steps {
                   sh './gradlew'
-                  helloWorld'Carter'
             }
         }
         /*
