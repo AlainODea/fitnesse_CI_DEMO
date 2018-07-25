@@ -68,7 +68,33 @@ def parseJson(jsonText) {
 def getChangedFiles(){
     script{
         withCredentials([[$class: 'StringBinding', credentialsId: "${jenkins_credentials_ID}", variable: 'GITHUB_TOKEN']]) {
-            def pr_files = sh (script: "curl -s -H \"Authorization: token ${GITHUB_TOKEN}\" \"https://api.github.com/repos/${repo_name}/pulls/${prNo}/files\"", returnStdout: true).trim()
+            def pr_files = sh (script: 'curl -H "Authorization: bearer GITHUB_TOKEN" -X -d \
+                               \'{"query": "query { \
+                                    repository(owner:\"JenkinsSonarQubeTesting\", name: \"fitnesse_CI_DEMO\"){ \
+                                       pullRequests(states:[OPEN, MERGED], last:10){ \
+                                         edges { \
+                                            node { \
+                                              reviews(first: 10, states:[COMMENTED, APPROVED]) { \
+                                                nodes {\
+                                                   createdAt \
+                                                   bodyText \
+                                                   author { \
+                                                      login \
+                                                   } \
+                                                } \
+                                             } \
+                                             url \
+                                          } \
+                                       } \
+                                       pageInfo { \
+                                          startCursor hasPreviousPage \
+                                       } \
+                                    } \
+                                 } \
+                              }\' https://api.github.com/graphql', returnStdout: true).trim()
+                                                                                              
+                                                                                                
+            // def pr_files = sh (script: "curl -s -H \"Authorization: token ${GITHUB_TOKEN}\" \"https://api.github.com/repos/${repo_name}/pulls/${prNo}/files\"", returnStdout: true).trim()
             return parseJson(pr_files)
         }
     }
