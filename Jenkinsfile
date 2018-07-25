@@ -50,7 +50,7 @@ pipeline {
             steps{
                 script{
                     def changed_files = getChangedFiles()
-                    changed_files.each(echo it.filename)
+                    changed_files.filename.each(echo it)
                     if(isLowsecrisk(getLowsecriskConditions(), changed_files.filename)){
                        echo 'Low security risk, approving PR...'
                        postReview(getLowsecriskComment())
