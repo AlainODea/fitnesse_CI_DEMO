@@ -50,6 +50,7 @@ pipeline {
             steps{
                 script{
                     def changed_files = getChangedFiles()
+                    echo changed_files.filename
                     if(isLowsecrisk(getLowsecriskConditions(), changed_files.filename)){
                        echo 'Low security risk, approving PR...'
                        postReview(getLowsecriskComment())
@@ -68,7 +69,7 @@ def parseJson(jsonText) {
 def getChangedFiles(){
     script{
         withCredentials([[$class: 'StringBinding', credentialsId: "${jenkins_credentials_ID}", variable: 'GITHUB_TOKEN']]) {
-            def pr_files = sh (script: 'curl -H "Content-Type: application/json" -H "Authorization: bearer GITHIB_TOKEN" -X -d \
+            /*def pr_files = sh (script: 'curl -H "Content-Type: application/json" -H "Authorization: bearer GITHIB_TOKEN" -X -d \
                 \'{"query": "query { \
                     repository(Owner: \"JenkinsSonarQubeTesting\", name: \"fitnesse_CI_DEMO\"){ \
                         pullRequests(states:[OPEN, MERGED], last:10){ \
@@ -92,9 +93,9 @@ def getChangedFiles(){
                         } \
                     } \
                 }" https://api.github.com/graphql\'', returnStdout: true).trim()
-                                                                                              
+                */                                                                       
                                                                                                 
-            // def pr_files = sh (script: "curl -s -H \"Authorization: token ${GITHUB_TOKEN}\" \"https://api.github.com/repos/${repo_name}/pulls/${prNo}/files\"", returnStdout: true).trim()
+            def pr_files = sh (script: "curl -s -H \"Authorization: token ${GITHUB_TOKEN}\" \"https://api.github.com/repos/${repo_name}/pulls/${prNo}/files\"", returnStdout: true).trim()
             return parseJson(pr_files)
         }
     }
