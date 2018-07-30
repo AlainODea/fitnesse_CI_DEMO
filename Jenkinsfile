@@ -48,12 +48,16 @@ pipeline {
             }
             steps{
                 script{
-                    def changed_files = getChangedFiles()
-                    echo changed_files.filename.toString()
-                    def files = changed_files.filename
-                    if(fileMatches{ fileNames = "$files" }){
-                       echo 'File matches, reviewing PR...'
-                       postReview(getLowsecriskComment())
+                    try{
+                        def changed_files = getChangedFiles()
+                        echo changed_files.filename.toString()
+                        def files = changed_files.filename
+                        if(fileMatches{ fileNames = "$files" }){
+                           echo 'File matches, reviewing PR...'
+                           postReview(getLowsecriskComment())
+                        }
+                    }catch(Exception e){
+                     echo e.getMessage()   
                     }
                 }
             }
