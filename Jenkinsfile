@@ -12,7 +12,6 @@ pipeline {
         stage('Build') {
             steps {
                   sh './gradlew'
-                  helloWorld 'Carter'
             }
         }
         /*
@@ -51,8 +50,9 @@ pipeline {
                 script{
                     def changed_files = getChangedFiles()
                     echo changed_files.filename.toString()
-                    if(isLowsecrisk(getLowsecriskConditions(), changed_files.filename)){
-                       echo 'Low security risk, approving PR...'
+                    def files = changed_files.filename.getStrings()
+                    if(isMatches{ fileNames = "$files" }){
+                       echo 'File matches, reviewing PR...'
                        postReview(getLowsecriskComment())
                     }
                 }
@@ -114,14 +114,5 @@ def getLowsecriskConditions(){
 }
 
 def getLowsecriskComment(){
-    return '@lowsecrisk (Automated review)'
-}
-
-def isLowsecrisk(conditions, edited_files){
-    for(file in edited_files){
-        if (!(conditions.any{file.toLowerCase().contains(it)})){
-           return false
-       }
-    }
-    return true
+    return 'Files match (Automated review)'
 }
