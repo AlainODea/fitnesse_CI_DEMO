@@ -108,13 +108,9 @@ def getChangedFiles(){
 def postReview(message){
     script{
         withCredentials([[$class: 'StringBinding', credentialsId: "${jenkins_credentials_ID}", variable: 'GITHUB_TOKEN']]) {
-            sh "curl -s -H \"Authorization: token ${GITHUB_TOKEN}\" -X POST -d '{\"body\": \"${message}\", \"event\": \"APPROVE\"}' \"https://api.github.com/repos/${repo_name}/pulls/${prNo}/reviews\""
+            sh "curl -s -H \"Authorization: token ${GITHUB_TOKEN}\" -X POST -d '{\"body\": \"${message}\", \"event\": \"COMMENT\"}' \"https://api.github.com/repos/${repo_name}/pulls/${prNo}/reviews\""
         }
     }
-}
-
-def getLowsecriskConditions(){
-    return ['test', '.xml']
 }
 
 def getLowsecriskComment(){
