@@ -1,3 +1,4 @@
+// Test
 package fitnesseMain;
 
 import fitnesse.ConfigurationParameter;
