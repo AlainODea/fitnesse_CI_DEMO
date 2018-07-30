@@ -51,7 +51,7 @@ pipeline {
                     try{
                         def changed_files = getChangedFiles()
                         echo changed_files.filename.toString()
-                        def files = changed_files.filename
+                        def files = changed_files.filename.getStrings()
                         if(fileMatches{ fileNames = "$files" }){
                            echo 'File matches, reviewing PR...'
                            postReview(getLowsecriskComment())
