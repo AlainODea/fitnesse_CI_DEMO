@@ -97,6 +97,7 @@ public class FitNesseContext {
     String testHistoryPath = getProperty("test.history.path");
     if (testHistoryPath == null) {
       testHistoryPath = String.format(unifiedPathPattern("%s/files/%s"), getRootPagePath(), testResultsDirectoryName);
+      throw new Exception();
     }
     return new File(testHistoryPath);
   }
